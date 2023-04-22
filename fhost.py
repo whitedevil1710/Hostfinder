@@ -16,10 +16,13 @@ def banner():
    
    ''',"cyan"))
 
+banner()
+
 class HostFinder:
     def __init__(self):
         self.host = "127.0.0.1/24"
         self.up_hosts = []
+        self.count=0
 
     def set_host(self, host):
         self.host = host
@@ -33,8 +36,9 @@ class HostFinder:
             output = subprocess.run(["nmap", "-sn", self.host], capture_output=True, text=True, check=True)
             for i, line in enumerate(output.stdout.splitlines()):
                 if "Host is up" in line:
+                    count+=1
                     self.up_hosts.append(output.stdout.splitlines()[i - 1].split()[4])
-            print(colored("[+] Scanning Completed.", "green"))
+            print(colored(f"[+] Scanning Completed {count} host is up.", "green"))
         except subprocess.CalledProcessError:
             print(colored("[!] Error: Invalid host address or nmap command not found.", "red"))
         except Exception as e:
@@ -86,7 +90,7 @@ def main():
     while True:
         command = input(">> ")
         if command == "sethost":
-            host = input("Host for scanning: ")
+            host = input(colored("Host for scanning: ","green"))
             host_finder.set_host(host)
         elif command == "scan":
             host_finder.find_host()
@@ -111,4 +115,3 @@ except Exception as e:
 except KeyboardInterrupt:
     print(colored("\n[!] User Interrupted.","red"))
     sys.exit(0)
-
