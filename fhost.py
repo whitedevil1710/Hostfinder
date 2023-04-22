@@ -88,7 +88,7 @@ class HostFinder:
 def main():
     host_finder = HostFinder()
     while True:
-        command = input(">> ")
+        command = input(">> ").strip()
         if command == "sethost":
             host = input(colored("Host for scanning: ","green"))
             host_finder.set_host(host)
