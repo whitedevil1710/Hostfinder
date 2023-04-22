@@ -36,9 +36,9 @@ class HostFinder:
             output = subprocess.run(["nmap", "-sn", self.host], capture_output=True, text=True, check=True)
             for i, line in enumerate(output.stdout.splitlines()):
                 if "Host is up" in line:
-                    count+=1
+                    self.count+=1
                     self.up_hosts.append(output.stdout.splitlines()[i - 1].split()[4])
-            print(colored(f"[+] Scanning Completed {count} host is up.", "green"))
+            print(colored(f"[+] Scanning Completed {self.count} host is up.", "green"))
         except subprocess.CalledProcessError:
             print(colored("[!] Error: Invalid host address or nmap command not found.", "red"))
         except Exception as e:
